@@ -10,6 +10,7 @@ import SwiftUI
 struct FrameworkDetailView: View {
     let framework : Framework
     @Binding var isShowingDetailView : Bool //why binding is here? Does meaning same to reference argument?
+    @State private var isShowingSafaryView = false 
     
     var body: some View {
         VStack{
@@ -33,11 +34,13 @@ struct FrameworkDetailView: View {
                 .font(.body)
             Spacer()
             Button{
-                
+                isShowingSafaryView = true
             } label: {
                 AFButton(title: "Learn more")
             }
-            
+            .fullScreenCover(isPresented: $isShowingSafaryView, content: {
+                SafariView(URL: URL(string: framework.urlString) ?? URL(string: "www.apple.com")! )
+            })
             
         }
     }
