@@ -12,22 +12,20 @@ struct FrameworkGridView: View {
     
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView{
                 LazyVGrid(columns: viewModel.colunm) { //tại sao ở VGrid cần nhận đối số colunm này
                     
                     ForEach(MockData.frameworks){ framework in //tại sao cần identifier
-                        FrameworkTitleView(framework: framework)
-                            .onTapGesture {
-                                viewModel.selectedFramework = framework
-                            }
+                        NavigationLink(value: framework) {
+                            FrameworkTitleView(framework: framework)
+                        }
                     }
                 }
             }
             .navigationTitle("Apple Frameworks")
-            .sheet(isPresented: $viewModel.isShowingDetailView) { //what's sheet ?
-                FrameworkDetailView(framework: viewModel.selectedFramework!,
-                                    isShowingDetailView: $viewModel.isShowingDetailView)
+            .navigationDestination(for: Framework.self) { framewowrk in
+                FrameworkDetailView(framework: framewowrk)
             }
         }
     }

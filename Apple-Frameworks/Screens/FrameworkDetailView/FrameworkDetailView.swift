@@ -9,12 +9,11 @@ import SwiftUI
 
 struct FrameworkDetailView: View {
     let framework : Framework
-    @Binding var isShowingDetailView : Bool //why binding is here? Does meaning same to reference argument?
+//    @Binding var isShowingDetailView : Bool //why binding is here? Does meaning same to reference argument?
     @State private var isShowingSafaryView = false 
     
     var body: some View {
         VStack{
-            XDissmissButton(isShowingDetailView: $isShowingDetailView)
             Spacer()
             FrameworkTitleView(framework: framework)
                 .padding()
@@ -25,16 +24,21 @@ struct FrameworkDetailView: View {
             Button{
                 isShowingSafaryView = true
             } label: {
-                AFButton(title: "Learn more")
+//                AFButton(title: "Learn more")
+                Label("Learn more", systemImage: "book.fill")
             }
-            .fullScreenCover(isPresented: $isShowingSafaryView, content: {
-                SafariView(URL: URL(string: framework.urlString) ?? URL(string: "www.apple.com")! )
-            })
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .tint(.red)
             
         }
+        .fullScreenCover(isPresented: $isShowingSafaryView, content: {
+            SafariView(URL: URL(string: framework.urlString) ?? URL(string: "www.apple.com")! )
+        })
+
     }
 }
 
 #Preview {
-    FrameworkDetailView( framework: MockData.sampleFramework, isShowingDetailView: .constant(false))
+    FrameworkDetailView( framework: MockData.sampleFramework)
 }
